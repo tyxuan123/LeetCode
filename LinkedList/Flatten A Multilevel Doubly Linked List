@@ -1,0 +1,46 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+};
+*/
+
+class Solution {
+    public Node flatten(Node head) {
+        Node temp = head;
+        //create a stack to store the next node of a current that has child
+        Stack <Node> stack = new Stack <>();
+        
+        
+        while (head != null) {
+            //if the current node has child
+            if (head.child != null) {
+                //if the next node of the current node is not null (with the condition that the current node
+                //has child), it will store the next node of the current node to the stack so that we can 
+                //retrieve it later
+                if (head.next != null) {
+                    stack.push(head.next);
+                }
+                //set the next node of the current node to child node and set the previous node of the 
+                //child node to the current node and set the child node to null
+                head.next = head.child;
+                head.next.prev = head;
+                head.child = null;
+                //if the current node doesn't have child node and the next node of the current node is null 
+                //and the stack is not empty (that means we have to set the next node of the current node 
+                //to the node in the stack)
+                //if the stack is empty and the next node of the current node is null, that means we have 
+                //flatten the multilevel doubly linked list
+            } else if (head.next == null && !stack.empty()) {
+                head.next = stack.pop();
+                head.next.prev = head;
+            }
+            head = head.next;
+        }
+        
+        return temp;
+    }
+}
