@@ -1,0 +1,114 @@
+class MyLinkedList {
+    
+    Node head;
+    
+    public int get(int index) {
+        Node node = head;
+        int count = 1;
+        while (node != null && node.next != null) {
+            node = node.next;
+            count++;
+        }
+
+        Node n = head;
+        if (index >= count || index < 0 || n == null) {
+            return -1;
+        } else {
+            for (int i = 0; i < index; i++) {
+                n = n.next;
+            }
+            return n.val;
+        }
+    }
+    
+    public void addAtHead(int val) {
+        Node node = new Node();
+        node.val = val;
+        node.next = null;
+        
+        node.next = head;
+        head = node;
+    }
+    
+    public void addAtTail(int val) {
+        Node node = new Node();
+        node.val = val;
+        node.next = null;
+        if (head == null) {
+            head = node;
+        } else {
+            Node n = head;
+            while (n.next != null) {
+                n = n.next;
+            }
+            n.next = node;
+        }
+    }
+    
+    public void addAtIndex(int index, int val) {
+        Node node = new Node();
+        node.val = val;
+        node.next = null;
+
+        Node m = head;
+        int count = 1;
+
+        while (m != null && m.next != null) {
+            m = m.next;
+            count++;
+        }
+
+        Node n = head;
+        if (index > count || index < 0 || (n == null && index > 0)) {
+            System.out.println("Invalid index");
+        } else if (index == 0) {
+            addAtHead(val);
+        } else {
+            Node prev = null;
+            for (int i = 0; i < index; i++) {
+                prev = n;
+                n = n.next;
+            }
+            prev.next = node;
+            node.next = n;
+        }
+    }
+    
+    public void deleteAtIndex(int index) {
+        Node node = head;
+        int count = 1;
+        while (node != null && node.next != null) {
+            node = node.next;
+            count++;
+        }
+
+        Node n = head;
+        if (index >= count || index < 0 || n == null) {
+            System.out.println("Invalid index");
+        } else if (index == 0) {
+            head = head.next;
+        } else {
+            Node prev = null;
+            for (int i = 0; i < index; i++) {
+                prev = n;
+                n = n.next;
+            }
+            prev.next = n.next;
+        }
+    }
+}
+
+class Node {
+    int val;
+    Node next;
+}
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList obj = new MyLinkedList();
+ * int param_1 = obj.get(index);
+ * obj.addAtHead(val);
+ * obj.addAtTail(val);
+ * obj.addAtIndex(index,val);
+ * obj.deleteAtIndex(index);
+ */
