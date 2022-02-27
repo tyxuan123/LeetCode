@@ -1,0 +1,186 @@
+public class DoublyLinkedList {
+
+    //refer to deleteAt method
+
+    private ListNode head;
+    private ListNode tail;
+    private int length;
+
+    private class ListNode {
+        private int data;
+        private ListNode next;
+        private ListNode prev;
+
+        public ListNode (int data) {
+            this.data = data;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+
+    public DoublyLinkedList() {
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+    }
+
+    public boolean isEmpty () {
+        return length == 0;
+    }
+
+    public int length () {
+        return length;
+    }
+
+    public void insertAtLast (int data) {
+        ListNode node = new ListNode(data);
+        if (isEmpty()) {
+            head = node;
+        } else {
+            tail.next = node;
+        }
+        node.prev = tail;
+        tail = node;
+        length++;
+    }
+
+    public void insertAtFirst (int data) {
+        ListNode node = new ListNode(data);
+        if (isEmpty()) {
+            tail = node;
+        } else {
+            head.prev = node;
+        }
+        node.next = head;
+        head = node;
+        length++;
+    }
+
+    public void insertAt (int index, int data) {
+        ListNode node = new ListNode(data);
+        if (index > length || index < 0) {
+            System.out.println("Invalid");
+        } else if (index == 0) {
+            insertAtFirst(data);
+            length++;
+        } else if (index == length) {
+            insertAtLast(data);
+            length++;
+        } else {
+            ListNode temp = null;
+            ListNode cur = head;
+            //(index == 0) and (index == length-1) will not reach here
+            for (int i = 0; i < length; i++) {
+                if (index == i) {
+                    node.next = cur;
+                    temp.next = node;
+                    node.prev = temp;
+                    cur.prev = node;
+                }
+                temp = cur;
+                cur = cur.next;
+            }
+        }
+    }
+
+    public void printForward () {
+        if (isEmpty()) {
+            return;
+        }
+
+        ListNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " --> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
+    public void printBackward () {
+        if (isEmpty()) {
+            return;
+        }
+
+        ListNode temp = tail;
+        while (temp != null) {
+            System.out.print(temp.data + " --> ");
+            temp = temp.prev;
+        }
+        System.out.println("null");
+    }
+
+    public void deleteFirst () {
+        if (isEmpty()) {
+            System.out.println("Invalid");
+        } else {
+            ListNode temp = head;
+            if (head == tail) {
+                tail = null;
+            } else {
+                head.next.prev = null;
+            }
+            head = head.next;
+            temp.next = null; //delete the .next of the previous head
+            length--;
+        }
+    }
+
+    public void deleteLast () {
+        if (isEmpty()) {
+            System.out.println("Invalid");
+        } else {
+            ListNode temp = tail;
+            if (head == tail) {
+                head = null;
+            } else {
+                tail.prev.next = null;
+            }
+            tail = tail.prev;
+            temp.prev = null; //delete the .prev of the previous tail
+            length--;
+        }
+    }
+
+    public void deleteAt(int index) {
+        //First, we must check whether the index is correct or not
+        //Second, give a condition for the first and the last nodes so that we can avoid null error
+        //Last, check the index between (first and last node - does not including first and last node)
+        if (index >= length || index < 0 || isEmpty()) {
+            System.out.println("Invalid Index");
+        } else if (index == 0) {
+            deleteFirst();
+        } else if (index == length - 1) {
+            deleteLast();
+        } else {
+            ListNode temp = null;
+            ListNode cur = head;
+            //(index == 0) and (index == length-1) will not reach here
+            for (int i = 0; i < length; i++) {
+                    if (index == i) {
+                    temp.next = cur.next;
+                    cur.next.prev = temp;
+                    break;
+                }
+                temp = cur;
+                cur = cur.next;
+            }
+        }
+        length--;
+    }
+
+    public static void main(String[] args) {
+        DoublyLinkedList dll = new DoublyLinkedList();
+        dll.insertAtLast(1);
+        dll.insertAtLast(2);
+        dll.insertAtLast(3);
+        dll.insertAtLast(4);
+
+        dll.insertAt(4,100);
+
+        //dll.deleteFirst();
+        //dll.deleteFirst();
+        //dll.deleteLast();
+        dll.printForward();
+        dll.printBackward();
+    }
+}
