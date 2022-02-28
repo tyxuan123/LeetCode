@@ -24,6 +24,7 @@ class Solution {
 
 
 //-------------------OR---------------------
+
 class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode temp = head;
