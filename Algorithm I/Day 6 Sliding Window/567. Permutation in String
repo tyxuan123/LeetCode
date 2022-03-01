@@ -1,0 +1,46 @@
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int start = 0;
+        int end = 0;
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+
+        //use frequency to check if the arrays are the same or not
+        //For example, arr1 [1,1,1,0,0....] = [a,b,c,d,e...] frequency of a,b,c=1, s1 = abc
+        //if arr2 [1,1,1,0,0...] is also equals to arr1, that means s1 is a permutation of s2
+        int [] arr1 = new int[26];
+        int [] arr2 = new int[26];
+
+        //store s1.length() frequencies of s1 characters and s2 characters in arr1 and arr2
+        while (end < s1.length()) {
+            arr1[s1.charAt(end) - 'a']++; // a-a = 0, store at 0 index in array
+            arr2[s2.charAt(end) - 'a']++;
+            end++;
+        }
+        if (Arrays.equals(arr1, arr2)) {
+            return true;
+        }
+
+        //starts checking s1.length() th element in arr2
+        while (end < s2.length()) {
+
+            //decrement the frequency of start th character in s2 
+            arr2[s2.charAt(start) - 'a']--;
+            
+            //increment the frequency of end th character in s2
+            arr2[s2.charAt(end) - 'a']++; 
+            
+            //because we want to maintain size of arr2 is same as arr1
+            start++; 
+            end++;
+            
+            if (Arrays.equals(arr1, arr2)) {
+            return true;
+        }
+            
+        }
+
+        return false;
+    }
+}
