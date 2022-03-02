@@ -1,0 +1,64 @@
+class Solution {
+    int area = 0;
+
+    public int maxAreaOfIsland(int[][] grid) {
+        int max = 0;
+        boolean[][] found = new boolean[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                countArea(i, j, grid, found);
+                max = Math.max(max, area);
+                area = 0;
+            }
+        }
+        return max;
+    }
+
+    public void countArea(int r, int c, int[][] grid, boolean[][] found) {
+        if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || found[r][c] || grid[r][c] == 0) {
+            return;
+        }
+        found[r][c] = true;
+        area++;
+        countArea(r + 1, c, grid, found);
+        countArea(r - 1, c, grid, found);
+        countArea(r, c + 1, grid, found);
+        countArea(r, c - 1, grid, found);
+    }
+}
+
+//---------OR
+
+class Solution {
+    boolean [][] found;
+    int [][] grid;
+    
+    public int maxAreaOfIsland(int[][] grid) {
+        this.grid = grid;
+        int max = 0;
+        found = new boolean [grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                //check all the rows and columns
+                max = Math.max(max,countArea(i,j));
+            }
+        }
+        return max;
+
+    }
+
+    public int countArea(int r, int c) {
+        
+        //if r and c are index out of bounds, the element in the found is true(means this column also known as island has already been found and we won't count it again) and grid[s][r] == 0(means it is water and not a island)
+        
+        if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || found[r][c] || grid[r][c] == 0) {
+            return 0;
+        }
+        
+        found[r][c] = true;
+        //after we found that island, we need to return 1 + .... so that we can check all(4 columns) the columns surrounded the current column(island) whether they are island or water by using Recursion (Depth-First-Search)
+        return (1 + countArea(r+1,c) + countArea(r-1,c) + countArea(r,c+1) + countArea(r,c-1));
+    }
+    
+    
+}
