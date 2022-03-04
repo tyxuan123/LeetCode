@@ -1,0 +1,51 @@
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        
+        int [][] direction  = {{1,0},{0,1},{-1,0},{0,-1}};
+        Queue <Cell> queue = new LinkedList <> ();
+        int [][] result = new int [mat.length][mat[0].length];
+        
+        for (int i=0; i<mat.length; i++) {
+            for (int j=0; j<mat[0].length; j++) {
+                //store the index of zero element into queue
+                if (mat[i][j] == 0) {
+                    //store the zero element from mat array into result array
+                    queue.offer(new Cell(i,j));
+                    result[i][j] = 0;
+                } else {
+                    //if mat[i][j] == 1, change the one element to max value from mat array and                     //store it into result array
+                    result[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                Cell current = queue.poll();
+                for (int[]dir : direction) {
+                    int x = current.x + dir[0];
+                    int y = current.y + dir[1];
+                    if (x >= 0 && y >= 0 && x < result.length && y < result[0].length) {
+                        if (result[x][y] > result[current.x][current.y] + 1) {
+                            result[x][y] = result[current.x][current.y] + 1;
+                            queue.offer(new Cell(x,y));
+                        }
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public class Cell {
+        int x;
+        int y;
+        
+        public Cell (int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
