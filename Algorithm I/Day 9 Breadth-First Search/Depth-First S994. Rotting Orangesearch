@@ -1,0 +1,57 @@
+//Breadth-First-Search
+class Solution {
+    
+    int check = 0;
+
+    public int orangesRotting(int[][] grid) {
+
+        int result = -1;
+
+        int [][] direction = {{0,1},{1,0},{0,-1},{-1,0}};
+        Queue <Cell> queue = new LinkedList<>();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new Cell(i, j));
+                }
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Cell current = queue.poll();
+                for (int [] dir:direction) {
+                    int x = current.x + dir[0];
+                    int y = current.y + dir[1];
+                    if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == 1) {
+                        grid[x][y] = 2;
+                        queue.offer(new Cell(x,y));
+                    }
+                }
+            }
+            result++;
+        }
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    return -1;
+                }
+            }
+        }
+
+        //if result = -1 (all the oranges are rotten and no fresh orange at first), else return 0
+        return result == -1 ? 0 : result;
+    }
+
+    public class Cell {
+        int x;
+        int y;
+
+        public Cell(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
