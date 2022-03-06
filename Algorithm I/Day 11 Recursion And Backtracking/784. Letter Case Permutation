@@ -1,0 +1,28 @@
+//Recursion (Depth-First Search)
+class Solution {
+    public List<String> letterCasePermutation(String s) {
+        List <String> result = new ArrayList<>();
+        int length = s.length();
+        boolean [] used = new boolean[length];
+        search(s,length,0,new char[length],result);
+        return result;
+    }
+
+    public void search (String s, int length, int depth, char [] c, List <String> result) {
+        if (depth == length) {
+            result.add(new String(c));
+            return;
+        }
+
+        char current = s.charAt(depth);
+        if (Character.isLetter(current)) {
+            c[depth] = Character.toLowerCase(current);
+            search(s,length,depth+1,c,result);
+            c[depth] = Character.toUpperCase(current);
+            search(s,length,depth+1,c,result);
+        } else {
+            c[depth] = current;
+            search(s, length, depth + 1, c, result);
+        }
+    }
+}
