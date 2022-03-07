@@ -1,0 +1,73 @@
+//Dynamic Programming
+class Solution {
+
+    public int climbStairs(int n) {
+        if (n == 1) {
+            return n;
+        }
+
+        int [] dynamic = new int[n+1];
+        dynamic[1] = 1;
+        dynamic[2] = 2;
+
+        for (int i = 3; i <= n; i++) {
+            dynamic[i] = dynamic[i-1] + dynamic[i-2];
+        }
+
+        return dynamic[n];
+    }
+
+}
+
+//-----------OR
+
+//Dynamic Programming
+class Solution {
+
+    public int climbStairs(int n) {
+        if (n == 1) {
+            return n;
+        }
+
+        int n1  = 1;
+        int n2 = 2;
+
+        for (int i = 3; i <= n; i++) {
+            int temp = n2;
+            n2 = n1 + n2;
+            n1 = temp;
+        }
+
+        return n2;
+    }
+
+}
+
+//-----------OR
+
+//Recursion(Time-Limited Exceeded)
+class Solution {
+    
+    int result = 0;
+
+    public int climbStairs(int n) {
+        climb(n,1,0);
+        return result;
+    }
+
+    private void climb(int n, int step, int count) {
+        if (count == n) {
+            result++;
+            return;
+        } else if (count > n) {
+            return;
+        }
+
+
+        for (int i=1; i<=2; i++) {
+            climb(n,i,count+i);
+        }
+    }
+
+}
+
