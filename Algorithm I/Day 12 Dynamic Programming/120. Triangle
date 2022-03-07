@@ -1,0 +1,40 @@
+//Dynamic Programming 
+
+//Bottom-Up Solution (more efficient)
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        for (int i=triangle.size() - 2; i>=0 ; i--) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                int nextRow1 = triangle.get(i+1).get(j);
+                int nextRow2 = triangle.get(i+1).get(j+1);
+                triangle.get(i).set(j,triangle.get(i).get(j) + Math.min(nextRow1,nextRow2));
+            }
+        }
+        return triangle.get(0).get(0);
+    }
+}
+
+//----------OR
+
+//Top-Down Solution
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        for (int i = 1; i < triangle.size(); i++) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                int sum = 0;
+                if (j == 0) {
+                    sum = triangle.get(i-1).get(0) + triangle.get(i).get(0);
+                } else if (j == triangle.get(i).size() - 1) {
+                    sum = triangle.get(i-1).get(triangle.get(i-1).size()-1) + triangle.get(i).get(j);
+                }  else {
+                    int min = Math.min(triangle.get(i-1).get(j),triangle.get(i-1).get(j-1));
+                    sum = min + triangle.get(i).get(j);
+                }
+
+                triangle.get(i).set(j,sum);
+            }
+        }
+
+        return Collections.min(triangle.get(triangle.size()-1));
+    }
+}
