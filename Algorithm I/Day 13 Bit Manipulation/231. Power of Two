@@ -1,0 +1,47 @@
+//Bit Manipulation
+class Solution {
+    
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && ((n & (n-1)) == 0);
+    }
+    
+}
+
+//-----------OR
+
+//Multiply by 2
+class Solution {
+    
+    public boolean isPowerOfTwo(int n) {
+        double i = 1;
+        while (i < n) {
+            i *= 2;
+        }
+        
+        return i == n;
+    }
+
+
+}
+
+//-----------OR
+
+//Recursion
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return helper(n,0,1, false);
+    }
+
+    private boolean helper (int n, int check, double powerResult, boolean result) {
+        if (powerResult > n) {
+            return false;
+        }
+
+        if (powerResult == n) {
+            return true;
+        }
+
+        double power = Math.pow(2,check);
+        return helper(n,check+1,power,result);
+    }
+}
